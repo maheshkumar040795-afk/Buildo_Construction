@@ -234,16 +234,39 @@
 <script src="assets/script.js"></script>
 <script>
 /* =========================================================
-   HERO SCROLL IMAGE SEQUENCE — 176 frames
-   Put your images at: assets/images/hero-sequence/frame_0001.jpg ... frame_0176.jpg
-   (change FRAME_PATH / FRAME_EXT / FRAME_COUNT below to match your actual files)
+   HERO SCROLL IMAGE SEQUENCE — responsive (desktop / mobile sets)
+   Desktop: assets/images/hero-sequence/ezgif-frame-001.jpg ... 176 frames
+   Mobile:  assets/images/hero-sequence-mobile/mobile-frame-001.webp ... 60 frames
+   (mobile set is smaller/lighter — chosen once at load based on screen width)
 ========================================================= */
 (function () {
-  const FRAME_COUNT  = 176;
-  const FRAME_PATH   = 'assets/images/hero-sequence/';
-  const FRAME_PREFIX = 'ezgif-frame-';         // matches your files: ezgif-frame-001.png
-  const FRAME_EXT    = '.jpg';
-  const PAD_LENGTH   = 3;                      // ezgif-frame-001 -> 3-digit padding
+  // Picked once at load. A phone won't cross this breakpoint mid-session
+  // (orientation change keeps width well under 768px), so no need to
+  // re-evaluate on resize like the canvas pin/size logic below does.
+  const IS_MOBILE = window.innerWidth <= 768;
+
+  const DESKTOP_CFG = {
+    FRAME_COUNT: 176,
+    FRAME_PATH: 'assets/images/hero-sequence/',
+    FRAME_PREFIX: 'ezgif-frame-',
+    FRAME_EXT: '.jpg',
+    PAD_LENGTH: 3,
+  };
+
+  const MOBILE_CFG = {
+    FRAME_COUNT: 60,
+    FRAME_PATH: 'assets/images/hero-sequence-mobile/',
+    FRAME_PREFIX: 'mobile-frame-',
+    FRAME_EXT: '.webp',
+    PAD_LENGTH: 3,
+  };
+
+  const CFG = IS_MOBILE ? MOBILE_CFG : DESKTOP_CFG;
+  const FRAME_COUNT  = CFG.FRAME_COUNT;
+  const FRAME_PATH   = CFG.FRAME_PATH;
+  const FRAME_PREFIX = CFG.FRAME_PREFIX;
+  const FRAME_EXT    = CFG.FRAME_EXT;
+  const PAD_LENGTH   = CFG.PAD_LENGTH;
 
   const frameUrl = (i) => `${FRAME_PATH}${FRAME_PREFIX}${String(i).padStart(PAD_LENGTH, '0')}${FRAME_EXT}`;
 
@@ -282,40 +305,10 @@
     // visible crop down so that text clears the navbar, at the cost of
     // cropping a bit more off the bottom of the frame instead.
     const VERTICAL_ANCHOR = 0.12;
-
-    // Plain "cover" (Math.max of the two ratios) works fine on wide/desktop
-    // screens, but on a tall portrait phone the height ratio dominates so
-    // hard that it zooms the frame in far past 100% width, slicing off the
-    // baked-in "Buildo" wordmark on both sides. On portrait viewports we cap
-    // the zoom close to the width-fit scale instead, so the full word always
-    // stays in frame -- trading a bit of extra dark letterboxing above/below
-    // (it matches the canvas's own #0a0a0a background, so it's unobtrusive).
-    const coverScale = Math.max(cw / iw, ch / ih);
-    const widthScale = cw / iw;
-    const isPortrait = ch > cw;
-    const MAX_WIDTH_ZOOM = 1.05; // allow only ~5% extra horizontal crop beyond fit-width
-    const scale = isPortrait ? Math.min(coverScale, widthScale * MAX_WIDTH_ZOOM) : coverScale;
-
+    const scale = Math.max(cw / iw, ch / ih);
     const sw = iw * scale, sh = ih * scale;
-    const dx = (cw - sw) / 2;
-    const dy = sh >= ch
-      ? -(sh - ch) * VERTICAL_ANCHOR   // frame taller than viewport: crop top/bottom as before
-      : (ch - sh) * VERTICAL_ANCHOR;   // frame shorter than viewport (letterboxed): nudge down a touch, same anchor feel
+    const dx = (cw - sw) / 2, dy = -(sh - ch) * VERTICAL_ANCHOR;
     ctx.clearRect(0, 0, cw, ch);
-
-    // When the width-fit image doesn't reach the bottom/top of a portrait
-    // screen (sh < ch), don't leave flat black bars showing -- fill the full
-    // canvas first with a softly blurred, fully-zoomed ("cover") copy of the
-    // same frame, then draw the crisp, uncropped foreground on top. Keeps
-    // the wordmark sharp and fully in view while the screen still looks full.
-    if (sh < ch) {
-      const bw = iw * coverScale, bh = ih * coverScale;
-      const bx = (cw - bw) / 2, by = -(bh - ch) * VERTICAL_ANCHOR;
-      ctx.save();
-      ctx.filter = 'blur(28px) brightness(0.55)';
-      ctx.drawImage(img, bx, by, bw, bh);
-      ctx.restore();
-    }
     ctx.drawImage(img, dx, dy, sw, sh);
   }
 
