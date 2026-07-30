@@ -20,8 +20,8 @@
   @media (max-width:480px){.logo-img{height:36px;}}
 
   /* ---- Scroll Image Sequence Hero ---- */
-  .hero-sequence-wrap{ position:relative; height:220vh; /* scroll distance the 176-frame sequence plays over */ }
-  .hero-sequence-wrap .hero{ position:sticky; top:0; height:100vh; overflow:hidden; }
+  .hero-sequence-wrap{ position:relative; height:420vh; /* scroll distance the 176-frame sequence plays over */ }
+  .hero-sequence-wrap .hero{ position:sticky; top:0; height:100vh; height:100dvh; overflow:hidden; }
   #heroSequenceCanvas{
     position:absolute; inset:0; width:100%; height:100%;
     object-fit:cover; z-index:0; background:#0a0a0a;
@@ -261,7 +261,7 @@
 
   function resizeCanvas() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2x to keep memory/perf sane
-    const w = window.innerWidth, h = window.innerHeight;
+    const w = document.documentElement.clientWidth, h = document.documentElement.clientHeight;
     canvas.width = w * dpr;
     canvas.height = h * dpr;
     canvas.style.width = w + 'px';
@@ -273,12 +273,18 @@
   function drawFrame(index) {
     const img = images[index];
     if (!img || !img.complete || !img.naturalWidth) return;
-    const cw = window.innerWidth, ch = window.innerHeight; // CSS pixels (transform handles DPR)
+    const cw = document.documentElement.clientWidth, ch = document.documentElement.clientHeight; // CSS pixels (transform handles DPR)
     const iw = img.naturalWidth, ih = img.naturalHeight;
-    // object-fit: cover behaviour
+    // object-fit: cover behaviour, but anchored toward the top instead of
+    // dead-center. The source video has its own baked-in tagline text near
+    // the top of frame; centering it put that text right behind the navbar.
+    // A low VERTICAL_ANCHOR (0 = top, 0.5 = center, 1 = bottom) pushes the
+    // visible crop down so that text clears the navbar, at the cost of
+    // cropping a bit more off the bottom of the frame instead.
+    const VERTICAL_ANCHOR = 0.12;
     const scale = Math.max(cw / iw, ch / ih);
     const sw = iw * scale, sh = ih * scale;
-    const dx = (cw - sw) / 2, dy = (ch - sh) / 2;
+    const dx = (cw - sw) / 2, dy = -(sh - ch) * VERTICAL_ANCHOR;
     ctx.clearRect(0, 0, cw, ch);
     ctx.drawImage(img, dx, dy, sw, sh);
   }
@@ -292,22 +298,31 @@
         const pct = Math.round((loaded / FRAME_COUNT) * 100);
         if (progressBar) progressBar.style.width = pct + '%';
         if (loaded === 1) { resizeCanvas(); }
-        if (loaded === FRAME_COUNT) onAllLoaded();
+        // Redraw the currently-targeted frame as each new image arrives, so
+        // frames that finish downloading late still appear without needing
+        // a scroll event to trigger a repaint.
+        drawFrame(Math.round(seq.frame));
       };
       images[i - 1] = img;
     }
   }
 
-  function onAllLoaded() {
+  // Hide the loading splash once the very first frame is ready (or after a
+  // short grace period regardless) rather than waiting for all 176 frames —
+  // on slower connections that wait could take a long time, during which the
+  // splash would just sit there uselessly since scrolling already works.
+  function hideLoadingSplash() {
     if (progressWrap) progressWrap.classList.add('done');
-    resizeCanvas();
-    initScrollTrigger();
   }
 
   function initScrollTrigger() {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Scrub through the 176 frames as the wrapper scrolls past.
+    // Scrub through the 176 frames as the wrapper scrolls past. This is set
+    // up immediately (not gated behind full preload) so the pin/scrub is in
+    // place from the start — frames that haven't downloaded yet simply don't
+    // draw until they arrive (see drawFrame's completeness check), instead
+    // of the whole pin snapping into place late and jumping the page around.
     gsap.to(seq, {
       frame: FRAME_COUNT - 1,
       ease: 'none',
@@ -340,7 +355,11 @@
     window._heroResizeT = setTimeout(resizeCanvas, 150);
   });
 
-  document.addEventListener('DOMContentLoaded', preloadImages);
+  document.addEventListener('DOMContentLoaded', () => {
+    preloadImages();
+    initScrollTrigger();
+    setTimeout(hideLoadingSplash, 900);
+  });
 })();
 </script>
 </body>
