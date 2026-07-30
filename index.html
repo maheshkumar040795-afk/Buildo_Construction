@@ -20,7 +20,7 @@
   @media (max-width:480px){.logo-img{height:36px;}}
 
   /* ---- Scroll Image Sequence Hero ---- */
-  .hero-sequence-wrap{ position:relative; height:400vh; /* scroll distance the 176-frame sequence plays over */ }
+  .hero-sequence-wrap{ position:relative; height:220vh; /* scroll distance the 176-frame sequence plays over */ }
   .hero-sequence-wrap .hero{ position:sticky; top:0; height:100vh; overflow:hidden; }
   #heroSequenceCanvas{
     position:absolute; inset:0; width:100%; height:100%;
@@ -242,7 +242,7 @@
   const FRAME_COUNT  = 176;
   const FRAME_PATH   = 'assets/images/hero-sequence/';
   const FRAME_PREFIX = 'ezgif-frame-';         // matches your files: ezgif-frame-001.png
-  const FRAME_EXT    = '.png';
+  const FRAME_EXT    = '.jpg';
   const PAD_LENGTH   = 3;                      // ezgif-frame-001 -> 3-digit padding
 
   const frameUrl = (i) => `${FRAME_PATH}${FRAME_PREFIX}${String(i).padStart(PAD_LENGTH, '0')}${FRAME_EXT}`;
@@ -260,15 +260,20 @@
   let loaded = 0;
 
   function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap at 2x to keep memory/perf sane
+    const w = window.innerWidth, h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS-pixel coordinates
     drawFrame(seq.frame);
   }
 
   function drawFrame(index) {
     const img = images[index];
     if (!img || !img.complete || !img.naturalWidth) return;
-    const cw = canvas.width, ch = canvas.height;
+    const cw = window.innerWidth, ch = window.innerHeight; // CSS pixels (transform handles DPR)
     const iw = img.naturalWidth, ih = img.naturalHeight;
     // object-fit: cover behaviour
     const scale = Math.max(cw / iw, ch / ih);
@@ -286,7 +291,7 @@
         loaded++;
         const pct = Math.round((loaded / FRAME_COUNT) * 100);
         if (progressBar) progressBar.style.width = pct + '%';
-        if (loaded === 1) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; drawFrame(0); }
+        if (loaded === 1) { resizeCanvas(); }
         if (loaded === FRAME_COUNT) onAllLoaded();
       };
       images[i - 1] = img;
@@ -326,7 +331,7 @@
         scrub: 0.5,
       },
     })
-      .to(heroContent, { opacity: 0, y: -30, ease: 'none' }, 0)
+      .to(heroContent, { opacity: 0, ease: 'none' }, 0)
       .to(scrollCue, { opacity: 0, ease: 'none' }, 0);
   }
 
