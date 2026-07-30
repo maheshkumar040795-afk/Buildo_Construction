@@ -1,5 +1,10 @@
 // ---------- Loader ----------
-window.addEventListener('load', () => {
+// Hides once the page's HTML/CSS/scripts are parsed, NOT once every network
+// resource finishes — that used to include all 176 hero-sequence images
+// (~26MB), which could keep this splash on screen for 10-30+ seconds on a
+// mobile connection. The hero sequence has its own lightweight progress
+// indicator, so this splash no longer needs to wait for it.
+document.addEventListener('DOMContentLoaded', () => {
   const loader = document.getElementById('loader');
   if (loader) setTimeout(() => loader.classList.add('hide'), 700);
 });

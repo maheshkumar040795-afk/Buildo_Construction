@@ -108,11 +108,12 @@ section{padding:100px 0;position:relative;}
 
 @media(max-width:960px){
   .nav-links{
-    position:fixed;top:0;right:-100%;width:78%;max-width:340px;height:100vh;
+    position:fixed;top:0;right:0;width:78%;max-width:340px;height:100vh;
     background:var(--navy);flex-direction:column;justify-content:center;align-items:flex-start;
-    gap:22px;padding:40px;transition:right .35s ease;box-shadow:-10px 0 40px rgba(0,0,0,.3);z-index:10000;
+    gap:22px;padding:40px;transition:transform .35s ease;box-shadow:-10px 0 40px rgba(0,0,0,.3);z-index:10000;
+    transform:translateX(100%);
   }
-  .nav-links.active{right:0;}
+  .nav-links.active{transform:translateX(0);}
   .nav-cta{display:none;}
   .hamburger{display:flex;}
 }
