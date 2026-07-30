@@ -282,10 +282,40 @@
     // visible crop down so that text clears the navbar, at the cost of
     // cropping a bit more off the bottom of the frame instead.
     const VERTICAL_ANCHOR = 0.12;
-    const scale = Math.max(cw / iw, ch / ih);
+
+    // Plain "cover" (Math.max of the two ratios) works fine on wide/desktop
+    // screens, but on a tall portrait phone the height ratio dominates so
+    // hard that it zooms the frame in far past 100% width, slicing off the
+    // baked-in "Buildo" wordmark on both sides. On portrait viewports we cap
+    // the zoom close to the width-fit scale instead, so the full word always
+    // stays in frame -- trading a bit of extra dark letterboxing above/below
+    // (it matches the canvas's own #0a0a0a background, so it's unobtrusive).
+    const coverScale = Math.max(cw / iw, ch / ih);
+    const widthScale = cw / iw;
+    const isPortrait = ch > cw;
+    const MAX_WIDTH_ZOOM = 1.05; // allow only ~5% extra horizontal crop beyond fit-width
+    const scale = isPortrait ? Math.min(coverScale, widthScale * MAX_WIDTH_ZOOM) : coverScale;
+
     const sw = iw * scale, sh = ih * scale;
-    const dx = (cw - sw) / 2, dy = -(sh - ch) * VERTICAL_ANCHOR;
+    const dx = (cw - sw) / 2;
+    const dy = sh >= ch
+      ? -(sh - ch) * VERTICAL_ANCHOR   // frame taller than viewport: crop top/bottom as before
+      : (ch - sh) * VERTICAL_ANCHOR;   // frame shorter than viewport (letterboxed): nudge down a touch, same anchor feel
     ctx.clearRect(0, 0, cw, ch);
+
+    // When the width-fit image doesn't reach the bottom/top of a portrait
+    // screen (sh < ch), don't leave flat black bars showing -- fill the full
+    // canvas first with a softly blurred, fully-zoomed ("cover") copy of the
+    // same frame, then draw the crisp, uncropped foreground on top. Keeps
+    // the wordmark sharp and fully in view while the screen still looks full.
+    if (sh < ch) {
+      const bw = iw * coverScale, bh = ih * coverScale;
+      const bx = (cw - bw) / 2, by = -(bh - ch) * VERTICAL_ANCHOR;
+      ctx.save();
+      ctx.filter = 'blur(28px) brightness(0.55)';
+      ctx.drawImage(img, bx, by, bw, bh);
+      ctx.restore();
+    }
     ctx.drawImage(img, dx, dy, sw, sh);
   }
 
