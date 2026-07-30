@@ -1,6 +1,6 @@
 // ---------- Loader ----------
 // Hides once the page's HTML/CSS/scripts are parsed, NOT once every network
-// resource finishes — that used to include all 176 hero-sequence images
+// resource finishes — that used to include all 192 hero-sequence images
 // (~26MB), which could keep this splash on screen for 10-30+ seconds on a
 // mobile connection. The hero sequence has its own lightweight progress
 // indicator, so this splash no longer needs to wait for it.
@@ -74,6 +74,29 @@ if (counterEls.length) {
   counterEls.forEach(el => obs.observe(el));
 }
 
+// ---------- Service card auto-flip (photo on back) ----------
+// Only ONE card is flipped at any given moment: it flips to show its photo,
+// holds for FLIP_HOLD, flips back to front, then the next card in sequence
+// takes its turn — looping through all cards forever. Skipped entirely for
+// users who prefer reduced motion.
+const serviceCards = document.querySelectorAll('.service-card');
+if (serviceCards.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const FLIP_HOLD = 2000; // how long the photo stays visible before flipping back
+  const FLIP_GAP  = 400;  // brief pause after flipping back before the next card starts
+  let flipIndex = 0;
+
+  const runFlipCycle = () => {
+    const card = serviceCards[flipIndex];
+    card.classList.add('flipped');
+    setTimeout(() => {
+      card.classList.remove('flipped');
+      flipIndex = (flipIndex + 1) % serviceCards.length;
+      setTimeout(runFlipCycle, FLIP_GAP);
+    }, FLIP_HOLD);
+  };
+  runFlipCycle();
+}
+
 // ---------- Projects filter ----------
 const filterBtns = document.querySelectorAll('.filter-btn');
 const projItems = document.querySelectorAll('.proj-item');
@@ -127,11 +150,7 @@ function sendContact() {
 function sendQuote() {
   const name = document.getElementById('qName')?.value.trim() || '';
   const phone = document.getElementById('qPhone')?.value.trim() || '';
-  const whatsapp = document.getElementById('qWhatsapp')?.value.trim() || '';
-  const email = document.getElementById('qEmail')?.value.trim() || '';
-  const propertyType = document.getElementById('qPropertyType')?.value || '';
   const location = document.getElementById('qLocation')?.value.trim() || '';
-  const budget = document.getElementById('qBudget')?.value || '';
   const services = document.getElementById('qServices')?.value || '';
   const desc = document.getElementById('qDesc')?.value.trim() || '';
 
@@ -143,14 +162,9 @@ function sendQuote() {
   let text = `Hello Buildo, I'd like a detailed quote.`;
   text += `\nName: ${name}`;
   text += `\nPhone: ${phone}`;
-  if (whatsapp) text += `\nWhatsApp: ${whatsapp}`;
-  if (email) text += `\nEmail: ${email}`;
-  if (propertyType) text += `\nProperty Type: ${propertyType}`;
   if (location) text += `\nLocation: ${location}`;
-  if (budget) text += `\nBudget: ${budget}`;
   if (services) text += `\nServices Needed: ${services}`;
   if (desc) text += `\nDescription: ${desc}`;
-  text += `\n(Note: please share reference images directly in this chat.)`;
 
   window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
 }
