@@ -20,7 +20,8 @@
   @media (max-width:480px){.logo-img{height:36px;}}
 
   /* ---- Scroll Image Sequence Hero ---- */
-  .hero-sequence-wrap{ position:relative; height:420vh; /* scroll distance the 176-frame sequence plays over */ }
+  .hero-sequence-wrap{ position:relative; height:458vh; /* scroll distance the 192-frame sequence plays over */ }
+  .num.plus-suffix::after{ content:'+'; } /* survives JS overwriting .num's textContent during count-up */
   .hero-sequence-wrap .hero{ position:sticky; top:0; height:100vh; height:100dvh; overflow:hidden; }
   #heroSequenceCanvas{
     position:absolute; inset:0; width:100%; height:100%;
@@ -111,15 +112,15 @@
       <p class="sec-desc">End-to-end interior and construction solutions &mdash; from concept to handover.</p>
     </div>
     <div class="services-grid">
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="0" style="position:relative;border-color:var(--gold);"><div class="tag" style="position:absolute;top:14px;right:14px;">Specialist</div><div class="icn"><i class="fas fa-spa"></i></div><h3>Salon &amp; Spa Interiors</h3><p>Purpose-built salon &amp; spa fit-outs &mdash; styling stations, wash bays, treatment rooms &amp; ambient lighting designed for client experience.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="50"><div class="icn"><i class="fas fa-couch"></i></div><h3>Home Interiors</h3><p>Full-home interior design tailored to your lifestyle and taste.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="100"><div class="icn"><i class="fas fa-kitchen-set"></i></div><h3>Modular Kitchen</h3><p>Smart, space-efficient modular kitchens with premium finishes.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="150"><div class="icn"><i class="fas fa-couch"></i></div><h3>Living Room Design</h3><p>Statement living spaces that blend comfort with elegance.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="200"><div class="icn"><i class="fas fa-bed"></i></div><h3>Bedroom Interiors</h3><p>Calming, functional bedroom interiors built around you.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="250"><div class="icn"><i class="fas fa-lightbulb"></i></div><h3>False Ceiling</h3><p>Designer false ceilings with integrated cove &amp; accent lighting.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="300"><div class="icn"><i class="fas fa-paint-roller"></i></div><h3>Renovation</h3><p>Complete home and office renovation with minimal disruption.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="350"><div class="icn"><i class="fas fa-building"></i></div><h3>Commercial Construction</h3><p>Offices, showrooms and commercial spaces built to spec.</p></div>
-      <div class="service-card glass" data-aos="fade-up" data-aos-delay="400"><div class="icn"><i class="fas fa-home"></i></div><h3>Residential Construction</h3><p>Turnkey home construction &mdash; from foundation to finish.</p></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="0"><div class="flip-inner"><div class="card-front glass" style="border-color:var(--gold);"><div class="tag" style="position:absolute;top:14px;right:14px;">Specialist</div><div class="icn"><i class="fas fa-spa"></i></div><h3>Salon &amp; Spa Interiors</h3><p>Purpose-built salon &amp; spa fit-outs &mdash; styling stations, wash bays, treatment rooms &amp; ambient lighting designed for client experience.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431477/IMG_6593.JPG_tkufyz.jpg" alt="Salon &amp; Spa Interiors" loading="lazy"><div class="back-label">Salon &amp; Spa Interiors</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="50"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-couch"></i></div><h3>Home Interiors</h3><p>Full-home interior design tailored to your lifestyle and taste.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431709/IMG_8133.JPG_ex1ekb.jpg" alt="Home Interiors" loading="lazy"><div class="back-label">Home Interiors</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="100"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-kitchen-set"></i></div><h3>Modular Kitchen</h3><p>Smart, space-efficient modular kitchens with premium finishes.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431710/IMG_8135.JPG_wtixih.jpg" alt="Modular Kitchen" loading="lazy"><div class="back-label">Modular Kitchen</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="150"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-couch"></i></div><h3>Living Room Design</h3><p>Statement living spaces that blend comfort with elegance.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431785/IMG_1805.JPG_fblcpf.jpg" alt="Living Room Design" loading="lazy"><div class="back-label">Living Room Design</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="200"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-bed"></i></div><h3>Bedroom Interiors</h3><p>Calming, functional bedroom interiors built around you.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431799/IMG_1816.JPG_jgevrv.jpg" alt="Bedroom Interiors" loading="lazy"><div class="back-label">Bedroom Interiors</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="250"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-lightbulb"></i></div><h3>False Ceiling</h3><p>Designer false ceilings with integrated cove &amp; accent lighting.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431558/IMG_4987.JPG_xeam5j.jpg" alt="False Ceiling" loading="lazy"><div class="back-label">False Ceiling</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="300"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-paint-roller"></i></div><h3>Renovation</h3><p>Complete home and office renovation with minimal disruption.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431748/IMG_9227.JPG_j94dem.jpg" alt="Renovation" loading="lazy"><div class="back-label">Renovation</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="350"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-building"></i></div><h3>Commercial Construction</h3><p>Offices, showrooms and commercial spaces built to spec.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431383/IMG_6577.JPG_ky6ava.jpg" alt="Commercial Construction" loading="lazy"><div class="back-label">Commercial Construction</div></div></div></div>
+      <div class="service-card" data-aos="fade-up" data-aos-delay="400"><div class="flip-inner"><div class="card-front glass"><div class="icn"><i class="fas fa-home"></i></div><h3>Residential Construction</h3><p>Turnkey home construction &mdash; from foundation to finish.</p></div><div class="card-back"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431689/IMG_8124.JPG_tovzy7.jpg" alt="Residential Construction" loading="lazy"><div class="back-label">Residential Construction</div></div></div></div>
     </div>
   </div>
 </section>
@@ -127,7 +128,7 @@
 <section class="why" id="why">
   <div class="container">
     <div class="why-grid">
-      <div class="why-visual" data-aos="fade-right"><div class="ph">[ Placeholder &mdash; signature project photo / cinematic still ]</div></div>
+      <div class="why-visual" data-aos="fade-right"><img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431349/IMG_7926.JPG_qnjhv5.jpg" alt="Buildo signature project" loading="lazy"></div>
       <div data-aos="fade-left">
         <div class="eyebrow">Why Buildo</div>
         <h2 class="sec-title">Why Choose <em>Buildo</em></h2>
@@ -140,9 +141,9 @@
       </div>
     </div>
     <div class="counters">
-      <div class="counter-box" data-aos="fade-up"><div class="num" data-count="150">0</div><div class="label">Projects Delivered</div></div>
+      <div class="counter-box" data-aos="fade-up"><div class="num plus-suffix" data-count="35">0</div><div class="label">Construction Projects</div></div>
       <div class="counter-box" data-aos="fade-up" data-aos-delay="100"><div class="num" data-count="8">0</div><div class="label">Years Experience</div></div>
-      <div class="counter-box" data-aos="fade-up" data-aos-delay="200"><div class="num" data-count="98">0</div><div class="label">% Client Satisfaction</div></div>
+      <div class="counter-box" data-aos="fade-up" data-aos-delay="200"><div class="num plus-suffix" data-count="20">0</div><div class="label">Interior Design</div></div>
       <div class="counter-box" data-aos="fade-up" data-aos-delay="300"><div class="num" data-count="20">0</div><div class="label">Expert Team Members</div></div>
     </div>
   </div>
@@ -234,39 +235,16 @@
 <script src="assets/script.js"></script>
 <script>
 /* =========================================================
-   HERO SCROLL IMAGE SEQUENCE — responsive (desktop / mobile sets)
-   Desktop: assets/images/hero-sequence/ezgif-frame-001.jpg ... 176 frames
-   Mobile:  assets/images/hero-sequence-mobile/mobile-frame-001.webp ... 60 frames
-   (mobile set is smaller/lighter — chosen once at load based on screen width)
+   HERO SCROLL IMAGE SEQUENCE — 192 frames
+   Put your images at: assets/images/hero-sequence/ezgif-frame-001.jpg ... ezgif-frame-192.jpg
+   (change FRAME_PATH / FRAME_EXT / FRAME_COUNT below to match your actual files)
 ========================================================= */
 (function () {
-  // Picked once at load. A phone won't cross this breakpoint mid-session
-  // (orientation change keeps width well under 768px), so no need to
-  // re-evaluate on resize like the canvas pin/size logic below does.
-  const IS_MOBILE = window.innerWidth <= 768;
-
-  const DESKTOP_CFG = {
-    FRAME_COUNT: 176,
-    FRAME_PATH: 'assets/images/hero-sequence/',
-    FRAME_PREFIX: 'ezgif-frame-',
-    FRAME_EXT: '.jpg',
-    PAD_LENGTH: 3,
-  };
-
-  const MOBILE_CFG = {
-    FRAME_COUNT: 60,
-    FRAME_PATH: 'assets/images/hero-sequence-mobile/',
-    FRAME_PREFIX: 'mobile-frame-',
-    FRAME_EXT: '.webp',
-    PAD_LENGTH: 3,
-  };
-
-  const CFG = IS_MOBILE ? MOBILE_CFG : DESKTOP_CFG;
-  const FRAME_COUNT  = CFG.FRAME_COUNT;
-  const FRAME_PATH   = CFG.FRAME_PATH;
-  const FRAME_PREFIX = CFG.FRAME_PREFIX;
-  const FRAME_EXT    = CFG.FRAME_EXT;
-  const PAD_LENGTH   = CFG.PAD_LENGTH;
+  const FRAME_COUNT  = 192;
+  const FRAME_PATH   = 'assets/images/hero-sequence/';
+  const FRAME_PREFIX = 'ezgif-frame-';         // matches your files: ezgif-frame-001.png
+  const FRAME_EXT    = '.jpg';
+  const PAD_LENGTH   = 3;                      // ezgif-frame-001 -> 3-digit padding
 
   const frameUrl = (i) => `${FRAME_PATH}${FRAME_PREFIX}${String(i).padStart(PAD_LENGTH, '0')}${FRAME_EXT}`;
 
@@ -290,6 +268,8 @@
     canvas.style.width = w + 'px';
     canvas.style.height = h + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS-pixel coordinates
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high'; // resizing the canvas resets context state, so re-set this every resize
     drawFrame(seq.frame);
   }
 
@@ -331,7 +311,7 @@
   }
 
   // Hide the loading splash once the very first frame is ready (or after a
-  // short grace period regardless) rather than waiting for all 176 frames —
+  // short grace period regardless) rather than waiting for all 192 frames —
   // on slower connections that wait could take a long time, during which the
   // splash would just sit there uselessly since scrolling already works.
   function hideLoadingSplash() {
@@ -341,7 +321,7 @@
   function initScrollTrigger() {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Scrub through the 176 frames as the wrapper scrolls past. This is set
+    // Scrub through the 192 frames as the wrapper scrolls past. This is set
     // up immediately (not gated behind full preload) so the pin/scrub is in
     // place from the start — frames that haven't downloaded yet simply don't
     // draw until they arrive (see drawFrame's completeness check), instead

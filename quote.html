@@ -33,8 +33,7 @@
 <nav class="navbar" id="navbar">
   <div class="nav-container">
     <a href="index.html" class="logo">
-      <div class="logo-mark">B</div>
-      <div class="logo-text">Buildo<small>Interior &amp; Construction</small></div>
+      <img src="assets/images/logo.png" alt="Buildo Interior &amp; Construction" class="logo-img">
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html">Home</a></li>
@@ -51,6 +50,12 @@
 </nav>
 
 <section class="page-banner">
+  <div class="banner-bg">
+    <img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431349/IMG_7926.JPG_qnjhv5.jpg" alt="" loading="lazy">
+    <img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431477/IMG_6593.JPG_tkufyz.jpg" alt="" loading="lazy">
+    <img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431706/IMG_8132.JPG_jsxn0u.jpg" alt="" loading="lazy">
+    <img src="https://res.cloudinary.com/lfgnusmd/image/upload/v1785431567/IMG_4994.JPG_d8kupg.jpg" alt="" loading="lazy">
+  </div>
   <div class="container">
     <div class="eyebrow">Free Estimate</div>
     <h1>Get a Detailed <em>Quote</em></h1>
@@ -67,33 +72,7 @@
         <div class="field"><label>Phone Number *</label><input type="tel" id="qPhone" placeholder="+91" required></div>
       </div>
       <div class="form-grid">
-        <div class="field"><label>WhatsApp Number</label><input type="tel" id="qWhatsapp" placeholder="+91"></div>
-        <div class="field"><label>Email</label><input type="email" id="qEmail" placeholder="you@email.com"></div>
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label>Property Type</label>
-          <select id="qPropertyType">
-            <option value="">Select property type</option>
-            <option>Independent House / Villa</option>
-            <option>Apartment / Flat</option>
-            <option>Commercial Space</option>
-            <option>Office</option>
-          </select>
-        </div>
         <div class="field"><label>Location</label><input type="text" id="qLocation" placeholder="City / Area"></div>
-      </div>
-      <div class="form-grid">
-        <div class="field">
-          <label>Budget Range</label>
-          <select id="qBudget">
-            <option value="">Select budget range</option>
-            <option>Under &#8377;10 Lakhs</option>
-            <option>&#8377;10 &ndash; 25 Lakhs</option>
-            <option>&#8377;25 &ndash; 50 Lakhs</option>
-            <option>&#8377;50 Lakhs+</option>
-          </select>
-        </div>
         <div class="field">
           <label>Services Needed</label>
           <select id="qServices">
@@ -107,10 +86,9 @@
           </select>
         </div>
       </div>
-      <div class="field"><label>Upload Reference Images</label><input type="file" id="qImages" multiple accept="image/*"></div>
       <div class="field"><label>Project Description</label><textarea id="qDesc" rows="4" placeholder="Tell us more about your project..."></textarea></div>
       <button class="btn btn-gold" style="width:100%;justify-content:center;" onclick="sendQuote()"><i class="fas fa-paper-plane"></i> Submit &amp; Get Estimate</button>
-      <p style="text-align:center;color:var(--text-faint);font-size:.78rem;margin-top:14px;">Image uploads are shared with our team directly over WhatsApp on submit.</p>
+      <p style="text-align:center;color:var(--text-faint);font-size:.78rem;margin-top:14px;">This will open WhatsApp with your details pre-filled &mdash; just hit send.</p>
     </div>
   </div>
 </section>
@@ -120,8 +98,7 @@
     <div class="footer-grid">
       <div class="footer-brand">
         <div class="logo">
-          <div class="logo-mark">B</div>
-          <div class="logo-text">Buildo<small>Interior &amp; Construction</small></div>
+          <img src="assets/images/logo-white.png" alt="Buildo Interior &amp; Construction" class="logo-img">
         </div>
         <p>We Build Beautiful Spaces &mdash; luxury interior design and construction across Tamil Nadu.</p>
       </div>
